@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather Forecast Application</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #eef2f3;
+        padding: 20px;
+      }
+
+      h1 {
+        text-align: center;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-bottom: 20px;
+      }
+
+      button {
+        padding: 10px 15px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      #forecast {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+      }
+
+      .weather-card {
+        background: white;
+        padding: 15px;
+        width: 200px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px #ccc;
+        text-align: center;
+      }
+
+      .weather-card img {
+        width: 60px;
+        height: 60px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Weather Forecast Application</h1>
+
+    <div class="controls">
+      <button onclick="toggleTemperatureUnit()">Toggle °C / °F</button>
+      <button onclick="refreshWeather()">Refresh Weather</button>
+    </div>
+
+    <div id="forecast"></div>
+
+    <!-- ⭐ ALL JAVASCRIPT IS HERE BELOW (DO NOT MOVE) ⭐ -->
+    <script>
+      // ---------------------- Task 1: Location --------------------
+      function getUserLocation() {
+        return {
+          latitude: 40.7128,
+          longitude: -74.006,
+        };
+      }
+
+      const userLocation = getUserLocation();
+      console.log("User Location:", userLocation);
+
+      // ---------------------- Weather Icons ------------------------
+      function getWeatherIcon(condition) {
+        const icons = {
+          Sunny: "https://cdn-icons-png.flaticon.com/512/869/869869.png",
+          Cloudy: "https://cdn-icons-png.flaticon.com/512/414/414825.png",
+          Rainy: "https://cdn-icons-png.flaticon.com/512/1163/1163657.png",
+          Snowy: "https://cdn-icons-png.flaticon.com/512/642/642102.png",
+        };
+        return icons[condition];
+      }
+
+      // ---------------------- Task 2: Weather Generation --------------------
+      function generateWeatherForecast(city, latitude, longitude) {
+        const weatherConditions = ["Sunny", "Cloudy", "Rainy", "Snowy"];
+        const forecast = [];
+        const currentDate = new Date();
+
+        for (let i = 0; i < 3; i++) {
+          const temperature = Math.random() * 45 - 10;
+          const condition =
+            weatherConditions[
+              Math.floor(Math.random() * weatherConditions.length)
+            ];
+          const humidity = Math.random() * 100;
+
+          forecast.push({
+            date: currentDate.toLocaleDateString(),
+            temperature,
+            condition,
+            humidity,
+            latitude,
+            longitude,
+          });
+
+          currentDate.setDate(currentDate.getDate() + 1);
+        }
+
+        return forecast;
+      }
+
+      let forecastData = generateWeatherForecast(
+        "New York",
+        userLocation.latitude,
+        userLocation.longitude
+      );
+
+      console.log("Generated Forecast:", forecastData);
+
+      // ---------------------- Task 3: Temperature Toggle --------------------
+      let isFahrenheit = false;
+
+      function convertTemperature(tempC) {
+        return (tempC * 9) / 5 + 32;
+      }
+
+      function toggleTemperatureUnit() {
+        isFahrenheit = !isFahrenheit;
+        displayForecast();
+      }
+
+      // ---------------------- Display Forecast --------------------
+      function displayForecast() {
+        const container = document.getElementById("forecast");
+        container.innerHTML = "";
+
+        forecastData.forEach((day) => {
+          const icon = getWeatherIcon(day.condition);
+
+          const temp = isFahrenheit
+            ? convertTemperature(day.temperature).toFixed(1) + " °F"
+            : day.temperature.toFixed(1) + " °C";
+
+          container.innerHTML += `
+                    <div class="weather-card">
+                        <img src="${icon}" alt="${day.condition}">
+                        <h3>${day.date}</h3>
+                        <p><strong>${day.condition}</strong></p>
+                        <p>Temperature: ${temp}</p>
+                        <p>Humidity: ${day.humidity.toFixed(1)}%</p>
+                        <p>Location: ${day.latitude}, ${day.longitude}</p>
+                    </div>
+                `;
+        });
+      }
+
+      // ---------------------- Refresh Weather --------------------
+      function refreshWeather() {
+        forecastData = generateWeatherForecast(
+          "New York",
+          userLocation.latitude,
+          userLocation.longitude
+        );
+        displayForecast();
+      }
+
+      displayForecast();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,9 @@
+Types of errors
+
+1. compiler error : syntax error 
+2. logical error : wrong logic in code solved by debugging code
+3. run time error : (resoure nahi hai, ya fir user ne galat input diya )
+
+
+exception error debugging try or catch (catch me types btana eq arthmetic oprator)
+Nestet Try catch 

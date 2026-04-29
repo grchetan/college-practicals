@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Flexbox Demo</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f4f4f4;
+        padding: 20px;
+      }
+
+      h2 {
+        text-align: center;
+      }
+
+      .container {
+        display: flex;
+        border: 3px solid black;
+        height: 120px;
+        margin-bottom: 30px;
+        background: white;
+      }
+
+      .box {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        font-size: 20px;
+        font-weight: bold;
+      }
+
+      /* Example 1: flex-grow */
+      .grow1 {
+        background: #ff5733;
+        flex-grow: 1;
+      }
+
+      .grow2 {
+        background: #33c1ff;
+        flex-grow: 2;
+      }
+
+      /* Example 2: flex-shrink */
+      .shrink1 {
+        background: #28a745;
+        width: 600px;
+        flex-shrink: 1;
+      }
+
+      .shrink2 {
+        background: #ffc107;
+        width: 600px;
+        flex-shrink: 1;
+      }
+
+      /* Example 3: flex-basis */
+      .basis1 {
+        background: #6f42c1;
+        flex-basis:100px;
+      }
+
+      .basis2 {
+        background: #dc3545;
+        flex-basis: 250px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>1️⃣ flex-grow Example</h2>
+    <div class="container">
+      <div class="box grow1">Grow 1</div>
+      <div class="box grow2">Grow 2</div>
+    </div>
+
+    <h2>2️⃣ flex-shrink Example (Window chhoti karo)</h2>
+    <div class="container">
+      <div class="box shrink1">Shrink 1</div>
+      <div class="box shrink2">Shrink 0</div>
+    </div>
+
+    <h2>3️⃣ flex-basis Example</h2>
+    <div class="container">
+      <div class="box basis1">100px</div>
+      <div class="box basis2">250px</div>
+    </div>
+  </body>
+</html>

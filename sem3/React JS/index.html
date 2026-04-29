@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Name Frequency Counter</title>
+
+    <!-- ================= CSS ================= -->
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+      }
+
+      body {
+        min-height: 100vh;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .card {
+        background: #fff;
+        padding: 25px;
+        width: 100%;
+        max-width: 400px;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        text-align: center;
+      }
+
+      h1 {
+        margin-bottom: 15px;
+        color: #333;
+      }
+
+      input {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        margin-bottom: 10px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+      }
+
+      button {
+        padding: 10px 15px;
+        border: none;
+        border-radius: 6px;
+        font-size: 14px;
+        cursor: pointer;
+        margin: 5px;
+        transition: 0.3s;
+      }
+
+      .add-btn {
+        background: #667eea;
+        color: white;
+      }
+
+      .add-btn:hover {
+        background: #5a67d8;
+      }
+
+      .voice-btn {
+        background: #48bb78;
+        color: white;
+      }
+
+      .voice-btn:hover {
+        background: #38a169;
+      }
+
+      .reset-btn {
+        background: #e53e3e;
+        color: white;
+      }
+
+      .reset-btn:hover {
+        background: #c53030;
+      }
+
+      ul {
+        list-style: none;
+        margin-top: 15px;
+        text-align: left;
+      }
+
+      li {
+        padding: 8px;
+        border-bottom: 1px solid #eee;
+        font-size: 15px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- ================= HTML ================= -->
+    <div class="card">
+      <h1>Name Counter</h1>
+
+      <input type="text" id="nameInput" placeholder="Enter a name" />
+
+      <button class="add-btn" onclick="addName()">Add Name</button>
+      <button class="voice-btn" onclick="startVoice()">🎤 Voice</button>
+      <button class="reset-btn" onclick="resetData()">Reset</button>
+
+      <ul id="resultList"></ul>
+    </div>
+
+    <!-- ================= JavaScript ================= -->
+    <script>
+      // Load data from localStorage OR create empty object
+      let nameCounts = JSON.parse(localStorage.getItem("nameCounts")) || {};
+
+      const input = document.getElementById("nameInput");
+      const list = document.getElementById("resultList");
+
+      // Display data when page loads
+      displayNames();
+
+      // Add name function
+      function addName(nameFromVoice) {
+        let name = nameFromVoice || input.value.trim();
+
+        if (name === "") return;
+
+        // Capitalize first letter
+        name = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+
+        // Increase count or add new name
+        if (nameCounts[name]) {
+          nameCounts[name]++;
+        } else {
+          nameCounts[name] = 1;
+        }
+
+        // Save to localStorage
+        localStorage.setItem("nameCounts", JSON.stringify(nameCounts));
+
+        // Clear input
+        input.value = "";
+
+        // Update UI
+        displayNames();
+      }
+
+      // Display all names
+      function displayNames() {
+        list.innerHTML = "";
+
+        for (let name in nameCounts) {
+          let li = document.createElement("li");
+          li.textContent = `${name} → ${nameCounts[name]} time(s)`;
+          list.appendChild(li);
+        }
+      }
+
+      // Reset data
+      function resetData() {
+        if (confirm("Are you sure you want to reset?")) {
+          nameCounts = {};
+          localStorage.removeItem("nameCounts");
+          displayNames();
+        }
+      }
+
+      // 🎤 Voice Input (Web Speech API)
+      function startVoice() {
+        if (!("webkitSpeechRecognition" in window)) {
+          alert("Speech Recognition not supported");
+          return;
+        }
+
+        const recognition = new webkitSpeechRecognition();
+        recognition.lang = "en-US";
+        recognition.start();
+
+        recognition.onresult = function (event) {
+          const spokenName = event.results[0][0].transcript;
+          addName(spokenName);
+        };
+      }
+    </script>
+  </body>
+</html>

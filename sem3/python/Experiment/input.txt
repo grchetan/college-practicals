@@ -1,0 +1,6 @@
+Hello World
+Apple is a fruit
+Dog is an animal
+Sky is blue
+Cat is small
+    

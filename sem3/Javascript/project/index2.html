@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Form to Table</title>
+    <style>
+      table,
+      th,
+      td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        padding: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <section>
+      <form id="myForm">
+        <label for="name">Name</label>
+        <input type="text" id="name" placeholder="Enter your name" />
+
+        <label for="pass">Password</label>
+        <input type="password" id="pass" placeholder="Enter password" />
+
+        <input type="submit" />
+      </form>
+    </section>
+
+    <br />
+
+    <!-- Table to show data -->
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Password</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+
+    <script>
+      const Myform = document.getElementById("myForm");
+      const tableBody = document.getElementById("tableBody");
+
+      let arr = []; // all objects stored here
+
+      Myform.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        let name = document.getElementById("name").value;
+        let password = document.getElementById("pass").value;
+
+        // object
+        let form_obj = {
+          Name: name,
+          Password: password,
+        };
+
+        // push in array
+        arr.push(form_obj);
+
+        // table me row add karna
+        addToTable(form_obj);
+
+        // input fields clear
+        Myform.reset();
+      });
+
+      // table me row add karne ka function
+      function addToTable(obj) {
+        let tr = document.createElement("tr");
+
+        let td1 = document.createElement("td");
+        td1.innerText = obj.Name;
+
+        let td2 = document.createElement("td");
+        td2.innerText = obj.Password;
+
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+
+        tableBody.appendChild(tr);
+      }
+    </script>
+  </body>
+</html>

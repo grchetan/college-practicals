@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather App - Favorite Cities</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+        background: #f2f2f2;
+      }
+
+      h1 {
+        text-align: center;
+      }
+
+      .input-section,
+      .favorites-section,
+      .forecast-container {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        box-shadow: 0 0 10px #0002;
+      }
+
+      .input-section input {
+        padding: 10px;
+        width: 60%;
+        border: 1px solid #aaa;
+        border-radius: 5px;
+      }
+
+      .input-section button {
+        padding: 10px 15px;
+        margin-left: 10px;
+        border: none;
+        background: #007bff;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .favorite-item {
+        padding: 10px;
+        background: #e6f0ff;
+        border-radius: 5px;
+        margin: 8px 0;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .forecast-item {
+        background: #fff7cc;
+        padding: 15px;
+        border-radius: 10px;
+        margin: 10px;
+        min-width: 200px;
+      }
+
+      .forecast-container {
+        display: flex;
+        justify-content: space-around;
+      }
+
+      /* ========== RESPONSIVE ========== */
+
+      /* Mobile */
+      @media only screen and (max-width: 600px) {
+        body {
+          font-size: 14px;
+          padding: 10px;
+        }
+        .forecast-container {
+          display: block;
+          text-align: center;
+        }
+        .forecast-item {
+          margin-bottom: 20px;
+        }
+      }
+
+      /* Tablet */
+      @media only screen and (min-width: 601px) and (max-width: 900px) {
+        body {
+          font-size: 16px;
+          padding: 15px;
+        }
+        .forecast-container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+        .forecast-item {
+          margin: 15px;
+        }
+      }
+
+      /* Desktop */
+      @media only screen and (min-width: 901px) {
+        body {
+          font-size: 18px;
+          padding: 20px;
+        }
+        .forecast-container {
+          display: flex;
+          justify-content: space-around;
+        }
+        .forecast-item {
+          margin: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Weather App - Favorite Cities</h1>
+
+    <!-- Search + Add City -->
+    <div class="input-section">
+      <h2>Add a City</h2>
+      <input type="text" id="cityInput" placeholder="Enter city name..." />
+      <button onclick="addCity()">Add to Favorites</button>
+    </div>
+
+    <!-- Favorite Cities -->
+    <div class="favorites-section">
+      <h2>Your Favorite Cities</h2>
+      <div id="favoritesList"></div>
+    </div>
+
+    <!-- Forecast Display -->
+    <div class="forecast-section">
+      <h2>Weather Forecast</h2>
+      <div class="forecast-container" id="forecastContainer"></div>
+    </div>
+
+    <script>
+      /* ========== WEATHER FORECAST FUNCTION ========== */
+      function generateWeatherForecast(city, latitude, longitude) {
+        const weatherConditions = ["Sunny", "Cloudy", "Rainy", "Snowy"];
+        const forecast = [];
+        const currentDate = new Date();
+
+        for (let i = 0; i < 3; i++) {
+          const day = currentDate.getDate();
+          const month = currentDate.getMonth() + 1;
+          const year = currentDate.getFullYear();
+
+          const temperature = Math.random() * 45 - 10;
+          const condition =
+            weatherConditions[
+              Math.floor(Math.random() * weatherConditions.length)
+            ];
+          const humidity = Math.random() * 100;
+
+          forecast.push({
+            date: `${month}/${day}/${year}`,
+            temperature,
+            condition,
+            humidity,
+            latitude,
+            longitude,
+          });
+
+          currentDate.setDate(currentDate.getDate() + 1);
+        }
+
+        return forecast;
+      }
+
+      /* ========== FAVORITE CITIES STORAGE ========== */
+      let favoriteCities =
+        JSON.parse(localStorage.getItem("favoriteCities")) || [];
+
+      function saveFavorites() {
+        localStorage.setItem("favoriteCities", JSON.stringify(favoriteCities));
+        displayFavorites();
+      }
+
+      function addCity() {
+        let name = document.getElementById("cityInput").value.trim();
+        if (name === "") return alert("Enter a city name!");
+
+        let exists = favoriteCities.some((c) => c.name === name);
+        if (exists) return alert("City already exists!");
+
+        let latitude = (Math.random() * 180 - 90).toFixed(2);
+        let longitude = (Math.random() * 360 - 180).toFixed(2);
+
+        favoriteCities.push({ name, latitude, longitude });
+        saveFavorites();
+
+        document.getElementById("cityInput").value = "";
+      }
+
+      function removeCity(cityName) {
+        favoriteCities = favoriteCities.filter((c) => c.name !== cityName);
+        saveFavorites();
+      }
+
+      /* ========== DISPLAY FAVORITE CITIES ========== */
+      function displayFavorites() {
+        let container = document.getElementById("favoritesList");
+        container.innerHTML = "";
+
+        favoriteCities.forEach((city) => {
+          container.innerHTML += `
+                    <div class="favorite-item">
+                        <span>${city.name}</span>
+                        <div>
+                            <button onclick="getWeatherForCity('${city.name}')">View Weather</button>
+                            <button onclick="removeCity('${city.name}')">Remove</button>
+                        </div>
+                    </div>
+                `;
+        });
+      }
+
+      /* ========== GET WEATHER FOR FAVORITE CITY ========== */
+      function getWeatherForCity(cityName) {
+        const city = favoriteCities.find((c) => c.name === cityName);
+        const data = generateWeatherForecast(
+          city.name,
+          city.latitude,
+          city.longitude
+        );
+        displayForecast(data);
+      }
+
+      /* ========== DISPLAY FORECAST ========== */
+      function displayForecast(forecastData) {
+        const container = document.getElementById("forecastContainer");
+        container.innerHTML = "";
+
+        forecastData.forEach((day) => {
+          container.innerHTML += `
+                    <div class="forecast-item">
+                        <h3>${day.date}</h3>
+                        <p>Temperature: ${day.temperature.toFixed(1)}°C</p>
+                        <p>Condition: ${day.condition}</p>
+                        <p>Humidity: ${day.humidity.toFixed(1)}%</p>
+                        <p>Lat: ${day.latitude}</p>
+                        <p>Lon: ${day.longitude}</p>
+                    </div>
+                `;
+        });
+      }
+
+      /* Load favorites on startup */
+      displayFavorites();
+    </script>
+  </body>
+</html>

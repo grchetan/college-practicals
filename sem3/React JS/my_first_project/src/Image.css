@@ -1,0 +1,14 @@
+.header-section {
+  color: aqua;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 87vh;
+  background-image: url("./assets/bg-img.jpg");
+}
+
+.header-container h1 {
+  color: white;
+  font-size: 3rem;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}

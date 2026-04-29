@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stylish Boxes</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(135deg, #1e3c72, #2a5298);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      .container {
+        display: flex;
+        justify-content: space-around;
+        gap: 20px;
+      }
+      .container > div > img {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 15px;
+      }
+      .container > div {
+        width: 120px;
+        height: 120px;
+        background: linear-gradient(135deg, #ff512f, #dd2476);
+        border-radius: 15px;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        transition: transform 3s ease, box-shadow 5s ease-in,
+          background 3s ease-in-out;
+      }
+
+      .container > div:hover {
+        transform: scale(6.7) rotate(360deg);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        background: linear-gradient(135deg, #24c6dc, #514a9d);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div><img src="img1.png" alt="" /></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </body>
+</html>

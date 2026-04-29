@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather Finder</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h2>Weather Finder</h2>
+      <div class="search-box">
+        <input type="text" id="city-input" placeholder="Enter city name..." />
+        <button id="search-btn">Search</button>
+      </div>
+
+      <div id="weather-result" class="result-box">
+        <p>Type a city name and hit search</p>
+      </div>
+
+      <!-- ⭐ 3-Day Weather Forecast Section (Added for Experiment 7) -->
+      <div class="forecast">
+        <h2>3-Day Weather Forecast</h2>
+
+        <div class="forecast-days">
+          <!-- Day 1 -->
+          <div class="day-card">
+            <div class="day-date">Monday, May 25</div>
+
+            <div class="day-temperature">25°C</div>
+            <div class="day-description">Partly Cloudy</div>
+          </div>
+
+          <!-- Day 2 -->
+          <div class="day-card">
+            <div class="day-date">Tuesday, May 26</div>
+
+            <div class="day-temperature">27°C</div>
+            <div class="day-description">Sunny</div>
+          </div>
+
+          <!-- Day 3 -->
+          <div class="day-card">
+            <div class="day-date">Wednesday, May 27</div>
+
+            <div class="day-temperature">22°C</div>
+            <div class="day-description">Rainy</div>
+          </div>
+        </div>
+      </div>
+      <!-- ⭐ Forecast Section End -->
+    </div>
+
+    <footer>
+      <p>☁️ Powered by <span>OpenWeatherMap API</span></p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

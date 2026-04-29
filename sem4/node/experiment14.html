@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Weather Forecast Output</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+      }
+
+      #output {
+        padding: 15px;
+        background: #f2f2f2;
+        border-radius: 10px;
+        margin-top: 20px;
+      }
+
+      .card {
+        background: white;
+        padding: 12px;
+        margin: 10px 0;
+        border-radius: 8px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Weather Forecast Output Display</h1>
+
+    <button
+      onclick="testDisplay()"
+      style="padding: 10px 20px; margin-bottom: 10px"
+    >
+      Generate Test Forecast
+    </button>
+
+    <!-- Output Box -->
+    <div id="output">
+      <h2>Weather Forecast Output</h2>
+    </div>
+
+    <script>
+      // Task 1: Weather Forecast Generator
+      function generateWeatherForecast(city, latitude, longitude) {
+        const weatherConditions = ["Sunny", "Cloudy", "Rainy", "Snowy"];
+        const forecast = [];
+        const currentDate = new Date();
+
+        for (let i = 0; i < 3; i++) {
+          const day = currentDate.getDate();
+          const month = currentDate.getMonth() + 1;
+          const year = currentDate.getFullYear();
+
+          const temperature = Math.random() * 45 - 10;
+          const condition =
+            weatherConditions[
+              Math.floor(Math.random() * weatherConditions.length)
+            ];
+          const humidity = Math.random() * 100;
+
+          forecast.push({
+            date: `${month}/${day}/${year}`,
+            temperature,
+            condition,
+            humidity,
+            latitude,
+            longitude,
+          });
+
+          currentDate.setDate(currentDate.getDate() + 1);
+        }
+
+        return forecast;
+      }
+
+      // Task 4: Display Forecast on Screen
+      function displayForecast(forecastData) {
+        const outputDiv = document.getElementById("output");
+        outputDiv.innerHTML = "<h2>Weather Forecast Output</h2>";
+
+        forecastData.forEach((dayForecast) => {
+          const card = `
+                    <div class="card">
+                        <p><strong>Date:</strong> ${dayForecast.date}</p>
+                        <p><strong>Condition:</strong> ${
+                          dayForecast.condition
+                        } ${getWeatherIcon(dayForecast.condition)}</p>
+                        <p><strong>Temperature:</strong> ${dayForecast.temperature.toFixed(
+                          1
+                        )}°C</p>
+                        <p><strong>Humidity:</strong> ${dayForecast.humidity.toFixed(
+                          1
+                        )}%</p>
+                        <p><strong>Location:</strong> (${
+                          dayForecast.latitude
+                        }, ${dayForecast.longitude})</p>
+                    </div>
+                `;
+          outputDiv.innerHTML += card;
+        });
+      }
+
+      // Helper Function: Weather Icons
+      function getWeatherIcon(condition) {
+        switch (condition) {
+          case "Sunny":
+            return "☀️";
+          case "Cloudy":
+            return "☁️";
+          case "Rainy":
+            return "🌧️";
+          case "Snowy":
+            return "❄️";
+          default:
+            return "🌍";
+        }
+      }
+
+      // Test Button Function
+      function testDisplay() {
+        const sampleForecast = generateWeatherForecast(
+          "Delhi",
+          28.7041,
+          77.1025
+        );
+        displayForecast(sampleForecast);
+      }
+    </script>
+  </body>
+</html>

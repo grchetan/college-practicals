@@ -1,0 +1,15 @@
+C lang Program topic
+
+
+date (04-10-2024)
+1. Data type
+2. Bitwise oprater
+3. Binary Lang find
+4. Switch case
+
+12:59 PM 10-10-2024
+5. For Loop
+
+
+10:26 AM 14-10-2024
+6. Fact

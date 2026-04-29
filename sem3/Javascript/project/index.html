@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <section>
+      <form action="">
+        <label for="name">Name</label>
+        <input type="text" id="name" placeholder="Enter your name" />
+
+        <label for=" pass">Password</label>
+        <input type="password" id="pass" placeholder="Enter password" />
+
+        <input type="submit" />
+      </form>
+    </section>
+
+    <script>
+      const Myform = document.querySelector("form");
+
+      Myform.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        let name = document.getElementById("name").value; // pehle function ke andar value get karni hai
+        console.log(name);
+
+        let password = document.getElementById("pass").value;
+        console.log(password);
+
+        //  object me data lana hai
+        let form_obj = {
+          Name: name,
+          Password: password,
+        };
+
+        console.log(form_obj);
+
+        let arr = [];
+        console.log(arr);
+
+        arr.push(form_obj);
+      });
+      // how to create elemet using dom
+      // what is for each ? array ki method hoti hai
+      // innertext and innerhtml diffrence
+      // dom me css kese use karte hai
+      // dom meh append kese karte hai
+      // diffrence between append and appendchild
+      // Local storage revice
+      //prevent defualt method is a to used for stop the browsers defualt action or an event we used prevendefault method when we donts want the browser to perform its default behavior
+    </script>
+  </body>
+</html>

@@ -1,0 +1,4 @@
+101,chetan,BCA
+102,aditya,BSc
+103,krishn,MTech
+104,mayuri,BFA

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Experiment 9 - Geolocation Weather</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #eef;
+        padding: 20px;
+      }
+      h1 {
+        text-align: center;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+      th,
+      td {
+        border: 1px solid #000;
+        padding: 10px;
+        text-align: center;
+      }
+      th {
+        background: #ccc;
+      }
+      .box {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Experiment 9 - Geolocation Weather Data</h1>
+    <div class="box">
+      <button onclick="displayWeather()">Show My Simulated Weather</button>
+      <div id="output"></div>
+    </div>
+
+    <script>
+      // Task 1
+      function getUserLocation() {
+        return { latitude: 40.7128, longitude: -74.006 };
+      }
+
+      // Task 2
+      function generateWeatherForecast(city, latitude, longitude) {
+        const weatherConditions = ["Sunny", "Cloudy", "Rainy", "Snowy"];
+        const forecast = [];
+        const today = new Date();
+
+        for (let i = 0; i < 3; i++) {
+          forecast.push({
+            date: today.toLocaleDateString(),
+            temperature: (Math.random() * 45 - 10).toFixed(1),
+            condition:
+              weatherConditions[
+                Math.floor(Math.random() * weatherConditions.length)
+              ],
+            humidity: Math.random().toFixed(2) * 100,
+            latitude,
+            longitude,
+            city,
+          });
+          today.setDate(today.getDate() + 1);
+        }
+        return forecast;
+      }
+
+      // Task 3 & 4
+      function displayWeather() {
+        const city = "India";
+        const loc = getUserLocation();
+        const data = generateWeatherForecast(city, loc.latitude, loc.longitude);
+
+        console.log(data);
+
+        let table = `
+      <h3>Weather Forecast for (Simulated Location): ${city}</h3>
+      <p><strong>Latitude:</strong> ${loc.latitude} | 
+         <strong>Longitude:</strong> ${loc.longitude}</p>
+      <table>
+        <tr>
+          <th>Date</th><th>City</th><th>Latitude</th><th>Longitude</th>
+          <th>Temperature (°C)</th><th>Condition</th><th>Humidity (%)</th>
+        </tr>`;
+        data.forEach((w) => {
+          table += `
+        <tr>
+          <td>${w.date}</td><td>${w.city}</td><td>${w.latitude}</td>
+          <td>${w.longitude}</td><td>${w.temperature}</td>
+          <td>${w.condition}</td><td>${w.humidity}</td>
+        </tr>`;
+        });
+        table += "</table>";
+        document.getElementById("output").innerHTML = table;
+      }
+    </script>
+  </body>
+</html>
