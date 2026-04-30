@@ -6,6 +6,7 @@ const rl = readline.createInterface({
 });
 
 rl.question('Enter your name: ', (name) => {
-  console.log(`Hello, ${name}! Welcome to the Greed game!`);
+  if (!name.trim()) name = 'Guest';
+  console.log(`Hello, ${name}! Welcome to the Movie Workshop Platform!`);
   rl.close();
 });
