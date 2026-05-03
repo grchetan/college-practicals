@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input id="msg" placeholder="Type message..." />
+    <button onclick="send()">Send</button>
+    <ul id="messages"></ul>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io();
+      function send() {
+        socket.emit('chat message', document.getElementById('msg').value);
+      }
+      socket.on('chat message', (msg) => {
+        const li = document.createElement('li');
+        li.textContent = msg;
+        document.getElementById('messages').appendChild(li);
+      });
+    </script>
+
+    <input id="searchInput" placeholder="Enter movie name" />
+    <button onclick="searchMovie()">Search</button>
+    <div id="result"></div>
+    <script>
+      async function searchMovie() {
+        const q = document.getElementById('searchInput').value;
+        const res = await fetch('/search?q=' + q);
+        const movies = await res.json();
+        document.getElementById('result').innerHTML = movies
+          .map((m) => `<p>${m.title} (${m.year})</p>`)
+          .join('');
+      }
+    </script>
+  </body>
+</html>
